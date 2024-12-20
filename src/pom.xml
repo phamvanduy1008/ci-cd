@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <!-- Thông tin dự án -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.duyduy</groupId>
+    <artifactId>static-website</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging> <!-- Chúng ta không cần WAR vì chỉ là website tĩnh -->
+
+    <!-- Plugin Maven để quản lý build -->
+    <build>
+        <plugins>
+            <!-- Plugin để sao chép tài nguyên tĩnh (HTML, CSS, JS) từ src đến target -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase> <!-- Thực thi vào phase generate-resources -->
+                        <goals>
+                            <goal>copy-resources</goal> <!-- Lệnh sao chép tài nguyên -->
+                        </goals>
+                        <configuration>
+                            <!-- Các thư mục nguồn để copy tài nguyên -->
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                            </resources>
+                            <outputDirectory>target/classes</outputDirectory> <!-- Thư mục đích -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Plugin để build dự án thành JAR hoặc chỉ sao chép tĩnh -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
