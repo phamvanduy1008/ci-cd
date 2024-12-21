@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     environment {
@@ -8,38 +7,44 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 echo 'Lấy mã nguồn từ repository Git'
                 checkout scm
             }
         }
-        } 
-    stage('Install PHP'){
-        steps {
-            echo 'Cài đặt PHP' sh 'apt-get update' 
-            sh 'apt-get install -y php php-cli php-mbstring unzip'
+
+        stage('Install PHP') {
+            steps {
+                echo 'Cài đặt PHP'
+                sh 'apt-get update'
+                sh 'apt-get install -y php php-cli php-mbstring unzip'
+            }
         }
-    } stage('Install Composer') {
-        steps { 
-            echo 'Cài đặt Composer' 
-            sh 'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"' 
-            sh 'php composer-setup.php' 
-            sh 'php -r "unlink(\'composer-setup.php\');"' 
-            sh 'mv composer.phar /usr/local/bin/composer' 
+
+        stage('Install Composer') {
+            steps { 
+                echo 'Cài đặt Composer' 
+                sh 'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"' 
+                sh 'php composer-setup.php' 
+                sh 'php -r "unlink(\'composer-setup.php\');"' 
+                sh 'mv composer.phar /usr/local/bin/composer' 
+            }
         }
-    } stage('Install PHP Dependencies') {
-        steps {
-            echo 'Cài đặt các thư viện phụ thuộc của PHP' 
-            sh 'composer install' 
+
+        stage('Install PHP Dependencies') {
+            steps {
+                echo 'Cài đặt các thư viện phụ thuộc của PHP' 
+                sh 'composer install' 
+            }
         }
-    } stage('Run PHP Tests') {
-        steps {
-            echo 'Chạy các bài kiểm tra của PHP' 
-            sh 'php vendor/bin/phpunit'
+
+        stage('Run PHP Tests') {
+            steps {
+                echo 'Chạy các bài kiểm tra của PHP' 
+                sh 'php vendor/bin/phpunit'
+            }
         }
-    }
 
         stage('Build Docker Image') {
             steps {
