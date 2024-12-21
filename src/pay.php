@@ -115,7 +115,8 @@
               <input
                 class="py-5 px-3 mt-5 text-2xl border-[2px] outline-[#009933] border-[#ccc] rounded"
                 placeholder="Email"
-                required
+
+              required
               />
               <input
                 class="py-5 px-3 mt-5 text-2xl border-[2px] outline-[#009933] border-[#ccc] rounded"
