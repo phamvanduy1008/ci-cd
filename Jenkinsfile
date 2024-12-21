@@ -19,9 +19,13 @@ stage('Install PHP') {
         sh 'curl -O https://www.php.net/distributions/php-8.0.0.tar.bz2'
         sh 'tar -xvjf php-8.0.0.tar.bz2'
         sh 'cd php-8.0.0 && ./configure --prefix=$HOME/php && make && make install'
-        sh 'export PATH=$HOME/php/bin:$PATH'
+        // Thêm PATH vào môi trường hiện tại của Jenkins để nó có tác dụng trong toàn bộ pipeline
+        script {
+            env.PATH = "$HOME/php/bin:${env.PATH}"
+        }
     }
 }
+
 
 
 
