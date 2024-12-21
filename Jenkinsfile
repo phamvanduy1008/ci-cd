@@ -75,7 +75,7 @@ pipeline {
 
         sh 'docker container run -d --rm --name $CONTAINER_NAME -p 8010:80 --network dev $IMAGE_NAME'
     }
-}
+
 
 
     post {
@@ -83,5 +83,7 @@ pipeline {
             echo 'Dọn dẹp workspace sau khi hoàn tất'
             cleanWs()
         }
+    }
+    }
     }
 }
