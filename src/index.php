@@ -51,24 +51,24 @@
                 <a href="#"><i class="fa-solid fa-house"></i>Giới thiệu</a>
               </li>
               <li>
-                <a href="product.html"
+                <a href="product.php"
                   ><i class="fa-brands fa-servicestack"></i>Về sản phẩm</a
                 >
               </li>
               <li>
-                <a href="exchange.html"
+                <a href="exchange.php"
                   ><i class="fa-solid fa-tree"></i>Nhận cây trồng</a
                 >
               </li>
               <li>
-                <a href="pay.html"
+                <a href="pay.php"
                   ><i class="fa-solid fa-bag-shopping"></i>Thanh toán</a
                 >
               </li>
             </ul>
 
             <div class="header__nav-log">
-              <a href="login.html"
+              <a href="login.php"
                 >Đăng nhập
                 <i class="fa-solid fa-person-walking-arrow-loop-left"></i
               ></a>
@@ -87,7 +87,7 @@
           <span>SaveNat</span>
         </div>
         <button class="header__responsive-package">
-          <a href="pay.html" style="color: black">
+          <a href="pay.php" style="color: black">
             <i class="fa-solid fa-cart-shopping"></i>
             <span id="index_sp"></span>
           </a>
@@ -122,7 +122,7 @@
                         <p class="slider__content-message">
                           Hãy hành động đừng lưỡng lự
                         </p>
-                        <a href="product.html" class="slider__content-btn"
+                        <a href="product.php" class="slider__content-btn"
                           >Đặt mua ngay</a
                         >
                       </div>
@@ -148,7 +148,7 @@
                       <p class="slider__content-message">
                         Hãy hành động đừng lưỡng lự
                       </p>
-                      <a href="product.html" class="slider__content-btn"
+                      <a href="product.php" class="slider__content-btn"
                         >Đặt mua ngay</a
                       >
                     </div>
@@ -224,7 +224,7 @@
                   </li>
                 </ul>
                 <div class="benefit__btn">
-                  <a href="product.html">Tìm hiểu thêm</a>
+                  <a href="product.php">Tìm hiểu thêm</a>
                 </div>
               </div>
             </div>
