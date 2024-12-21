@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub2') 
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub2')
         IMAGE_NAME = 'phamvanduy108/website'
     }
 
@@ -13,42 +13,40 @@ pipeline {
                 checkout scm
             }
         }
-stage('Install PHP') {
-    steps {
-        echo 'Cài đặt PHP mà không cần sử dụng sudo'
-        sh 'curl -O https://www.php.net/distributions/php-8.0.0.tar.bz2'
-        sh 'tar -xvjf php-8.0.0.tar.bz2'
-        sh 'cd php-8.0.0 && ./configure --prefix=$HOME/php && make && make install'
-        // Thêm PATH vào môi trường hiện tại của Jenkins để nó có tác dụng trong toàn bộ pipeline
-        script {
-            env.PATH = "$HOME/php/bin:${env.PATH}"
+        
+        stage('Install PHP') {
+            steps {
+                echo 'Cài đặt PHP mà không cần sử dụng sudo'
+                sh 'curl -O https://www.php.net/distributions/php-8.0.0.tar.bz2'
+                sh 'tar -xvjf php-8.0.0.tar.bz2'
+                sh 'cd php-8.0.0 && ./configure --prefix=$HOME/php && make && make install'
+                // Thêm PATH vào môi trường hiện tại của Jenkins để nó có tác dụng trong toàn bộ pipeline
+                script {
+                    env.PATH = "$HOME/php/bin:${env.PATH}"
+                }
+            }
         }
-    }
-}
-
-
-
 
         stage('Install Composer') {
-            steps { 
-                echo 'Cài đặt Composer' 
-                sh 'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"' 
-                sh 'php composer-setup.php' 
-                sh 'php -r "unlink(\'composer-setup.php\');"' 
-                sh 'mv composer.phar /usr/local/bin/composer' 
+            steps {
+                echo 'Cài đặt Composer'
+                sh 'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"'
+                sh 'php composer-setup.php'
+                sh 'php -r "unlink(\'composer-setup.php\');"'
+                sh 'mv composer.phar /usr/local/bin/composer'
             }
         }
 
         stage('Install PHP Dependencies') {
             steps {
-                echo 'Cài đặt các thư viện phụ thuộc của PHP' 
-                sh 'composer install' 
+                echo 'Cài đặt các thư viện phụ thuộc của PHP'
+                sh 'composer install'
             }
         }
 
         stage('Run PHP Tests') {
             steps {
-                echo 'Chạy các bài kiểm tra của PHP' 
+                echo 'Chạy các bài kiểm tra của PHP'
                 sh 'php vendor/bin/phpunit'
             }
         }
