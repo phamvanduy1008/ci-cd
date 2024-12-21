@@ -5,7 +5,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub2') 
         IMAGE_NAME = 'phamvanduy108/built_website'
-        CONTAINER_NAME = 'php_dev_app'
+        CONTAINER_NAME = 'php_dev_app1'
     }
 
     stages {
@@ -42,36 +42,41 @@ pipeline {
             }
         }
 
-        stage('Deploy PHP App to DEV') {
-            steps {
-                echo 'Deploying PHP app to DEV environment'
+       stage('Deploy PHP App to DEV') {
+    steps {
+        echo 'Deploying PHP app to DEV environment'
 
-                // Kéo Docker image từ Docker Hub
-                sh 'docker image pull $IMAGE_NAME'
+        sh 'docker image pull $IMAGE_NAME'
 
-                // Kiểm tra và dừng container đang chạy nếu tồn tại
-                sh '''
-                if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-                    docker container stop $CONTAINER_NAME;
-                fi
-                '''
-                // Xóa container cũ nếu tồn tại
-                sh '''
-                if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-                    docker container rm $CONTAINER_NAME;
-                fi
-                '''
-                // Tạo Docker network nếu chưa tồn tại
-                sh 'docker network create dev || echo "Network đã tồn tại"'
+        // Kiểm tra và dừng container đang chạy nếu tồn tại
+        sh '''
+        if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+            docker container stop $CONTAINER_NAME;
+        fi
+        '''
 
-                // Dọn dẹp các container không cần thiết
-                sh 'docker container prune -f'
+        // Xóa container cũ nếu tồn tại
+        sh '''
+        if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+            docker container rm $CONTAINER_NAME;
+        fi
+        '''
 
-                // Chạy container mới với image được chỉ định
-                sh 'docker container run -d --rm --name $CONTAINER_NAME -p 8008:80 --network dev $IMAGE_NAME'
-            }
-        }
+        // Tạo Docker network nếu chưa tồn tại
+        sh '''
+        if [ -z "$(docker network ls --filter name=^dev$ --format '{{.Name}}')" ]; then
+            docker network create dev;
+        else
+            echo "Network đã tồn tại";
+        fi
+        '''
+
+        sh 'docker container prune -f'
+
+        sh 'docker container run -d --rm --name $CONTAINER_NAME -p 8010:80 --network dev $IMAGE_NAME'
     }
+}
+
 
     post {
         always {
