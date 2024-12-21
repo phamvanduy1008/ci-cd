@@ -17,10 +17,11 @@ pipeline {
         stage('Install PHP') {
             steps {
                 echo 'Cài đặt PHP'
-                sh 'apt-get update'
-                sh 'apt-get install -y php php-cli php-mbstring unzip'
-            }
-        }
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install -y php php-cli php-mbstring unzip'
+    }
+}
+
 
         stage('Install Composer') {
             steps { 
