@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub2')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub2') 
         IMAGE_NAME = 'phamvanduy108/website'
-        PHPEVN_ROOT = "$HOME/.phpenv"
     }
 
     stages {
@@ -14,15 +13,32 @@ pipeline {
                 checkout scm
             }
         }
-        
-       stage('Install PHP with phpenv') { steps { echo 'Cài đặt PHP mà không cần sử dụng sudo' sh 'curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer | bash' sh 'export PATH="$HOME/.phpenv/bin:$PATH"' sh 'eval "$(phpenv init -)"' sh 'phpenv install 8.0.0' sh 'phpenv global 8.0.0' sh 'php -v' // Kiểm tra phiên bản PHP đã cài đặt // Thêm PATH vào môi trường hiện tại của Jenkins để nó có tác dụng trong toàn bộ pipeline script { env.PATH = "$HOME/.phpenv/shims:${env.PATH}" } } }
+
+        stage('Install PHP') {
+            steps {
+                echo 'Cài đặt PHP mà không cần sử dụng sudo'
+                sh 'curl -O https://www.php.net/distributions/php-8.0.0.tar.bz2'
+                sh 'tar -xvjf php-8.0.0.tar.bz2'
+                sh 'cd php-8.0.0 && ./configure --prefix=$HOME/php && make && make install'
+                // Thêm PATH vào môi trường hiện tại của Jenkins để nó có tác dụng trong toàn bộ pipeline
+                script {
+                    env.PATH = "$HOME/php/bin:${env.PATH}"
+                }
+            }
+        }
+
         stage('Install Composer') {
             steps {
                 echo 'Cài đặt Composer'
                 sh 'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"'
                 sh 'php composer-setup.php'
                 sh 'php -r "unlink(\'composer-setup.php\');"'
-                sh 'mv composer.phar /usr/local/bin/composer'
+                // Cài đặt Composer vào thư mục người dùng thay vì /usr/local/bin
+                sh 'mv composer.phar $HOME/composer'
+                script {
+                    // Thêm đường dẫn đến Composer vào PATH
+                    env.PATH = "$HOME:${env.PATH}"
+                }
             }
         }
 
