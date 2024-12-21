@@ -49,17 +49,17 @@
           <nav class="header__nav">
             <ul class="header__nav-list">
               <li>
-                <a href="index.html"
+                <a href="index.php"
                   ><i class="fa-solid fa-house"></i>Giới thiệu</a
                 >
               </li>
               <li>
-                <a href="product.html"
+                <a href="product.php"
                   ><i class="fa-brands fa-servicestack"></i>Về sản phẩm</a
                 >
               </li>
               <li>
-                <a href="exchange.html"
+                <a href="exchange.php"
                   ><i class="fa-solid fa-tree"></i>Nhận cây trồng</a
                 >
               </li>
@@ -71,7 +71,7 @@
             </ul>
 
             <div class="header__nav-log">
-              <a href="login.html"
+              <a href="login.php"
                 >Đăng nhập
                 <i class="fa-solid fa-person-walking-arrow-loop-left"></i
               ></a>
@@ -90,7 +90,7 @@
           <span>SaveNat</span>
         </div>
         <button class="header__responsive-package">
-          <a href="pay.html" style="color: black">
+          <a href="pay.php" style="color: black">
             <i class="fa-solid fa-cart-shopping"></i>
             <span id="pay_sp"></span>
           </a>
