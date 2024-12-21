@@ -1,11 +1,8 @@
-# Sử dụng Nginx làm máy chủ web để phục vụ ứng dụng tĩnh
-FROM nginx:alpine
+# Sử dụng Apache HTTP Server làm web server
+FROM httpd:latest
 
-# Copy toàn bộ mã nguồn ứng dụng vào thư mục gốc của Nginx
-COPY src/ /usr/share/nginx/html/
+# Sao chép mã nguồn HTML/CSS/JS vào thư mục mặc định của Apache
+COPY ./src/ /usr/local/apache2/htdocs/
 
-# Expose cổng 80 để truy cập ứng dụng
+# Expose cổng 80
 EXPOSE 80
-
-# Khởi động Nginx
-CMD ["nginx", "-g", "daemon off;"]

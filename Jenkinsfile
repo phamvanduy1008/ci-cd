@@ -1,54 +1,50 @@
 pipeline {
+
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Thông tin đăng nhập DockerHub từ Jenkins
-        IMAGE_NAME = 'duyduy/static-website'             // Tên Docker Image
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub2') 
+        IMAGE_NAME = 'phamvanduy108/built_website'
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
-                // Lấy mã nguồn từ repository Git
+                echo 'Lấy mã nguồn từ repository Git'
                 checkout scm
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Build Docker image từ Dockerfile
-                    sh 'docker build -t $IMAGE_NAME .'
-                }
+                echo 'Đóng gói ứng dụng HTML/CSS vào Docker Image'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
         stage('Push Docker Image to DockerHub') {
             steps {
-                script {
-                    // Đăng nhập Docker Hub và push image
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        sh 'docker push $IMAGE_NAME'
-                    }
+                echo 'Đẩy Docker Image lên DockerHub'
+                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+                    sh 'docker push $IMAGE_NAME'
                 }
             }
         }
 
         stage('Deploy to DEV Environment') {
             steps {
-                script {
-                    // Dừng container cũ và chạy container mới
-                    sh 'docker container stop static-website || true'
-                    sh 'docker container rm static-website || true'
-                    sh 'docker run -d --name static-website -p 8080:80 $IMAGE_NAME'
-                }
+                echo 'Triển khai ứng dụng trên DEV'
+                sh 'docker container stop html-app || echo "Container không tồn tại"'
+                sh 'docker container rm html-app || echo "Không có container cần xóa"'
+                sh 'docker run -d --rm --name html-app -p 8008:80 $IMAGE_NAME'
             }
         }
     }
 
     post {
         always {
-            // Dọn dẹp workspace
+            echo 'Dọn dẹp workspace sau khi hoàn tất'
             cleanWs()
         }
     }
