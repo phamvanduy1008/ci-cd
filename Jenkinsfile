@@ -1,27 +1,16 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'my-maven' 
-    }
-
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub') 
-        IMAGE_NAME = 'duyduy/website' 
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Thông tin đăng nhập DockerHub từ Jenkins
+        IMAGE_NAME = 'duyduy/static-website'             // Tên Docker Image
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Lấy mã nguồn từ repository
+                // Lấy mã nguồn từ repository Git
                 checkout scm
-            }
-        }
-
-        stage('Build with Maven') {
-            steps {
-                // Build ứng dụng với Maven
-                sh 'mvn clean package'
             }
         }
 
