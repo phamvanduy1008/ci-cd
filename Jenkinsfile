@@ -14,11 +14,11 @@ pipeline {
             }
         }
 
-        stage('Install PHP') {
-            steps {
-                echo 'Cài đặt PHP'
-                sh 'sudo apt-get update'
-                sh 'sudo apt-get install -y php php-cli php-mbstring unzip'
+       stage('Install PHP') {
+        steps {
+            echo 'Cài đặt PHP'
+                sh 'echo "1" | sudo -S apt-get update'
+                sh 'echo "1" | sudo -S apt-get install -y php php-cli php-mbstring unzip'
     }
 }
 
