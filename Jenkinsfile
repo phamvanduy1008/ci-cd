@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub2') 
-        IMAGE_NAME = 'phamvanduy108/built_website'
+        IMAGE_NAME = 'phamvanduy108/website'
     }
 
     stages {
