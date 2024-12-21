@@ -9,7 +9,7 @@
 
 
 # Sử dụng PHP với Apache làm base image
-FROM php:7.4-apache
+FROM httpd:latest
 
 # Cài đặt các thư viện phụ thuộc cần thiết cho PHP và Apache
 RUN apt-get update && apt-get install -y \
