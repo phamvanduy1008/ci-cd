@@ -1,7 +1,7 @@
-# Sử dụng PHP với Apache
-FROM php:8.2-apache
+# Sử dụng Apache HTTP Server làm web server
+FROM httpd:latest
 
-# Sao chép mã nguồn PHP vào thư mục gốc của web server
+# Sao chép mã nguồn HTML/CSS/JS vào thư mục mặc định của Apache
 COPY ./src/ /usr/local/apache2/htdocs/
 
 # Expose cổng 80
