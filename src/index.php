@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="/assets/responsive/header.css" />
   </head>
   <body id="top">
+<?php echo "Mã PHP";?>
     <div class="loader"></div>
     <div id="main" class="grid wide">
       <!-- Header -->
