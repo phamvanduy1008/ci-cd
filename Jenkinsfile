@@ -13,14 +13,16 @@ pipeline {
                 checkout scm
             }
         }
-
-       stage('Install PHP') {
-        steps {
-            echo 'Cài đặt PHP'
-                sh 'echo "1" | sudo -S apt-get update'
-                sh 'echo "1" | sudo -S apt-get install -y php php-cli php-mbstring unzip'
+stage('Install PHP') {
+    steps {
+        echo 'Cài đặt PHP mà không cần sử dụng sudo'
+        sh 'curl -O https://www.php.net/distributions/php-8.0.0.tar.bz2'
+        sh 'tar -xvjf php-8.0.0.tar.bz2'
+        sh 'cd php-8.0.0 && ./configure --prefix=$HOME/php && make && make install'
+        sh 'export PATH=$HOME/php/bin:$PATH'
     }
 }
+
 
 
         stage('Install Composer') {
